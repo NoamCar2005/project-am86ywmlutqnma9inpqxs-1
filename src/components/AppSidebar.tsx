@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 
 const menuItems = [
   {
-    title: "לוח מחוונים",
+    title: "דאשבורד",
     url: "/",
     icon: Home,
   },
@@ -41,7 +41,7 @@ const menuItems = [
     icon: History,
   },
   {
-    title: "עורך",
+    title: "עריכה",
     url: "/editor",
     icon: Edit3,
   },
