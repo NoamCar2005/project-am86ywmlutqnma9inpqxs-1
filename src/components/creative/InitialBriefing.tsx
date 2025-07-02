@@ -20,9 +20,13 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  // --- IMPORTANT: DEFINE YOUR MAKE.COM WEBHOOK URL HERE ---
+  // Replace 'YOUR_MAKE_COM_WEBHOOK_URL_HERE' with the actual URL provided by Make.com
+  const MAKE_COM_WEBHOOK_URL = "https://hook.eu2.make.com/k3sbrftw1p15tnqtqcgo1g5rroofqjcc";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.brief.trim()) {
       toast({
         title: "שגיאה",
@@ -34,7 +38,7 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
 
     if (!formData.productUrl.trim()) {
       toast({
-        title: "שגיאה", 
+        title: "שגיאה",
         description: "אנא הזן URL של המוצר",
         variant: "destructive"
       });
@@ -42,21 +46,43 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
     }
 
     setIsLoading(true);
-    
+
     try {
-      // Simulate API call to backend for AI planning
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      // --- Webhook Implementation Starts Here ---
+      const response = await fetch(MAKE_COM_WEBHOOK_URL, {
+        method: "POST", // Webhooks typically use POST requests
+        headers: {
+          "Content-Type": "application/json", // Important: specify content type
+        },
+        body: JSON.stringify(formData), // Send your form data as a JSON string
+      });
+
+      if (!response.ok) {
+        // If the HTTP response status is not 2xx, throw an error
+        let errorData;
+        try {
+          errorData = await response.json(); // Try to parse error message from response body
+        } catch {
+          errorData = { message: "Could not parse error response" };
+        }
+        throw new Error(errorData.message || `Request failed with status ${response.status}`);
+      }
+
+      // If Make.com sends back data (e.g., a plan ID or immediate confirmation), parse it
+      const result = await response.json();
+
       toast({
         title: "מעולה!",
-        description: "הבריף נשמר בהצלחה. עובר לשלב התכנון..."
+        description: "הבריף נשלח בהצלחה. מכין תוכנית קריאייטיב..."
       });
-      
-      onComplete(formData);
-    } catch (error) {
+
+      // Call onComplete with the result from Make.com, or formData if no specific result is needed yet
+      onComplete(result || formData);
+
+    } catch (error: any) {
       toast({
         title: "שגיאה",
-        description: "אירעה שגיאה בשמירת הבריף",
+        description: `אירעה שגיאה בשליחת הבריף: ${error.message || "נסה שוב."}`,
         variant: "destructive"
       });
     } finally {
@@ -147,9 +173,9 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
 
         {/* Submit Button */}
         <div className="flex justify-end pt-4">
-          <Button 
-            type="submit" 
-            size="lg" 
+          <Button
+            type="submit"
+            size="lg"
             disabled={isLoading}
             className="gradient-primary text-white min-w-[200px] hover:text-brand-light"
           >
