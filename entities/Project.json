@@ -1,0 +1,39 @@
+{
+  "name": "Project",
+  "description": "A creative project containing the initial brief and URL",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Project title or brief description"
+    },
+    "brief": {
+      "type": "string",
+      "description": "High-level creative brief in Hebrew"
+    },
+    "product_url": {
+      "type": "string",
+      "description": "URL of the product to create content for"
+    },
+    "creative_type": {
+      "type": "string",
+      "description": "Type of creative (video, image_set, etc.)",
+      "enum": ["video", "image_set", "carousel"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current project status",
+      "enum": ["draft", "planning", "generating", "completed", "failed"]
+    },
+    "creative_plan_json": {
+      "type": "string",
+      "description": "JSON string containing the AI-generated creative plan"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorizing the project",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

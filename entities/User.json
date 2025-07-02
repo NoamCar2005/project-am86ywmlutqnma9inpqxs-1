@@ -1,0 +1,31 @@
+{
+  "name": "User",
+  "description": "Extended user profile for AdCraftAI",
+  "properties": {
+    "subscription_plan": {
+      "type": "string",
+      "description": "Current subscription plan",
+      "enum": ["starter", "pro", "premium"]
+    },
+    "credits_balance": {
+      "type": "number",
+      "description": "Current credit balance"
+    },
+    "credits_used": {
+      "type": "number",
+      "description": "Total credits used"
+    },
+    "subscription_expires_at": {
+      "type": "string",
+      "description": "Subscription expiration date"
+    },
+    "preferences": {
+      "type": "string",
+      "description": "JSON string of user preferences"
+    },
+    "onboarding_completed": {
+      "type": "boolean",
+      "description": "Whether user completed onboarding"
+    }
+  }
+}

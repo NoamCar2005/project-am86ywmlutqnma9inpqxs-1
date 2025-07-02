@@ -1,0 +1,46 @@
+{
+  "name": "Creative",
+  "description": "A generated creative asset",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "ID of the associated project"
+    },
+    "title": {
+      "type": "string",
+      "description": "Creative title"
+    },
+    "status": {
+      "type": "string",
+      "description": "Creative generation status",
+      "enum": ["planning", "generating_media", "json_built", "rendered", "failed"]
+    },
+    "video_url": {
+      "type": "string",
+      "description": "URL of the final rendered video"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "URL of the creative thumbnail"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Duration in seconds"
+    },
+    "ai_prompts": {
+      "type": "string",
+      "description": "JSON string of AI prompts used"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorizing the creative",
+      "items": {
+        "type": "string"
+      }
+    },
+    "is_favorite": {
+      "type": "boolean",
+      "description": "Whether the creative is marked as favorite"
+    }
+  }
+}

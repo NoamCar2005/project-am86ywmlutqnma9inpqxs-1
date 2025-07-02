@@ -1,0 +1,27 @@
+{
+  "name": "CreditTransaction",
+  "description": "Credit usage and purchase transactions",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Transaction type",
+      "enum": ["purchase", "usage", "refund", "bonus"]
+    },
+    "amount": {
+      "type": "number",
+      "description": "Credit amount (positive for additions, negative for usage)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Transaction description in Hebrew"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Associated project ID (for usage transactions)"
+    },
+    "creative_id": {
+      "type": "string",
+      "description": "Associated creative ID (for usage transactions)"
+    }
+  }
+}
