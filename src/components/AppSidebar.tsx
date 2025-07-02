@@ -19,7 +19,8 @@ import {
   CreditCard, 
   Settings, 
   User,
-  Sparkles
+  Sparkles,
+  MessageCircle
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,11 @@ const menuItems = [
     title: "היסטוריית קריאייטיבים",
     url: "/history",
     icon: History,
+  },
+  {
+    title: "עוזר השיווק",
+    url: "/marketing-assistant",
+    icon: MessageCircle,
   },
   {
     title: "עריכה",

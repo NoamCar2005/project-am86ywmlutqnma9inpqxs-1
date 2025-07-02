@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowRight, Link as LinkIcon, Video, Image, Layers } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Link as LinkIcon, Video, Image, Layers, Info, TrendingUp, Play } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface InitialBriefingProps {
@@ -65,9 +66,54 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
   };
 
   const creativeTypes = [
-    { id: "video", label: "סרטון", icon: Video, description: "סרטון קצר לרשתות חברתיות" },
-    { id: "image_set", label: "סט תמונות", icon: Image, description: "מספר תמונות למודעות" },
-    { id: "carousel", label: "קרוסלה", icon: Layers, description: "קרוסלה אינטראקטיבית" }
+    { 
+      id: "video", 
+      label: "סרטון", 
+      icon: Video, 
+      description: "סרטון קצר לרשתות חברתיות",
+      type: "video",
+      tag: "וידאו"
+    },
+    { 
+      id: "product_info", 
+      label: "מידע על המוצר", 
+      icon: Info, 
+      description: "הצגת מידע מפורט על המוצר",
+      type: "static",
+      tag: "סטטי"
+    },
+    { 
+      id: "trendy_reel", 
+      label: "רילס טרנדי", 
+      icon: TrendingUp, 
+      description: "רילס עם טרנדים עדכניים",
+      type: "video",
+      tag: "וידאו"
+    },
+    { 
+      id: "product_explanation", 
+      label: "הסבר על המוצר", 
+      icon: Play, 
+      description: "הסבר מפורט איך המוצר עובד",
+      type: "video",
+      tag: "וידאו"
+    },
+    { 
+      id: "image_set", 
+      label: "סט תמונות", 
+      icon: Image, 
+      description: "מספר תמונות למודעות",
+      type: "static",
+      tag: "סטטי"
+    },
+    { 
+      id: "carousel", 
+      label: "קרוסלה", 
+      icon: Layers, 
+      description: "קרוסלה אינטראקטיבית",
+      type: "static",
+      tag: "סטטי"
+    }
   ];
 
   return (
@@ -119,7 +165,7 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
           <RadioGroup
             value={formData.creativeType}
             onValueChange={(value) => setFormData(prev => ({ ...prev, creativeType: value }))}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {creativeTypes.map((type) => (
               <div key={type.id} className="relative">
@@ -130,9 +176,15 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
                 />
                 <Label
                   htmlFor={type.id}
-                  className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-brand-primary hover:text-brand-light peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors"
+                  className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-brand-primary hover:text-brand-light peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors relative"
                 >
-                  <type.icon className="mb-3 h-6 w-6" />
+                  <Badge 
+                    variant={type.type === 'video' ? 'default' : 'secondary'} 
+                    className="absolute top-2 left-2 text-xs"
+                  >
+                    {type.tag}
+                  </Badge>
+                  <type.icon className="mb-3 h-6 w-6 mt-2" />
                   <div className="text-center">
                     <div className="font-medium">{type.label}</div>
                     <div className="text-sm text-muted-foreground mt-1">

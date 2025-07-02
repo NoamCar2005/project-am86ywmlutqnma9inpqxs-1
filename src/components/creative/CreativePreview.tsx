@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Download, Share2, Edit, Play, Heart, Star } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Creative, Project } from "@/entities";
 
 interface CreativePreviewProps {
   projectData: any;
@@ -14,6 +15,8 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [createdCreativeId, setCreatedCreativeId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Simulate video rendering completion
@@ -66,12 +69,68 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
     }
   };
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    toast({
-      title: isFavorite ? "הוסר מהמועדפים" : "נוסף למועדפים",
-      description: isFavorite ? "הקריאייטיב הוסר מרשימת המועדפים" : "הקריאייטיב נוסף לרשימת המועדפים"
-    });
+  const toggleFavorite = async () => {
+    if (createdCreativeId) {
+      try {
+        await Creative.update(createdCreativeId, { is_favorite: !isFavorite });
+        setIsFavorite(!isFavorite);
+        toast({
+          title: isFavorite ? "הוסר מהמועדפים" : "נוסף למועדפים",
+          description: isFavorite ? "הקריאייטיב הוסר מרשימת המועדפים" : "הקריאייטיב נוסף לרשימת המועדפים"
+        });
+      } catch (error) {
+        toast({
+          title: "שגיאה",
+          description: "אירעה שגיאה בעדכון המועדפים",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
+  const handleCreateNewCreative = async () => {
+    try {
+      // First create a project
+      const project = await Project.create({
+        title: `פרויקט ${new Date().toLocaleDateString('he-IL')}`,
+        brief: projectData.brief,
+        product_url: projectData.productUrl,
+        creative_type: projectData.creativeType,
+        status: "completed",
+        creative_plan_json: JSON.stringify(projectData.creativePlan),
+        tags: ["ai-generated", projectData.creativeType]
+      });
+
+      // Then create the creative
+      const creative = await Creative.create({
+        project_id: project.id,
+        title: `קריאייטיב ${projectData.creativeType}`,
+        status: "rendered",
+        video_url: videoUrl,
+        thumbnail_url: "https://via.placeholder.com/320x180/1E2849/FFFFFF?text=Creative+Thumbnail",
+        duration: projectData.creativePlan?.total_duration || 0,
+        ai_prompts: JSON.stringify(projectData.creativePlan?.scenes || []),
+        tags: ["ai-generated", projectData.creativeType],
+        is_favorite: false
+      });
+
+      setCreatedCreativeId(creative.id);
+
+      toast({
+        title: "קריאייטיב נשמר!",
+        description: "הקריאייטיב נוסף להיסטוריה שלך"
+      });
+
+      // Navigate to create new creative
+      navigate('/create');
+    } catch (error) {
+      console.error('Error creating creative:', error);
+      toast({
+        title: "שגיאה",
+        description: "אירעה שגיאה בשמירת הקריאייטיב",
+        variant: "destructive"
+      });
+    }
   };
 
   if (isLoading) {
@@ -196,10 +255,8 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
               צפה בהיסטוריה
             </Link>
           </Button>
-          <Button asChild className="gradient-primary text-white hover:text-brand-light">
-            <Link to="/create">
-              צור קריאייטיב חדש
-            </Link>
+          <Button onClick={handleCreateNewCreative} className="gradient-primary text-white hover:text-brand-light">
+            צור קריאייטיב חדש
           </Button>
         </div>
       </div>

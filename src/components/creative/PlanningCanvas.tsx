@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ArrowLeft, Edit, Play, Image, Type, Mic } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { PlanChangeDialog } from "./PlanChangeDialog";
+import { invokeLLM } from "@/integrations/core";
 
 interface PlanningCanvasProps {
   projectData: any;
@@ -15,6 +17,7 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
   const [creativePlan, setCreativePlan] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showChangeDialog, setShowChangeDialog] = useState(false);
 
   useEffect(() => {
     generateAIPlan();
@@ -24,10 +27,13 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
     setIsLoading(true);
     
     try {
-      // Simulate AI planning generation
+      // Simulate AI planning generation with more scenes
       await new Promise(resolve => setTimeout(resolve, 3000));
       
-      // Mock AI-generated plan
+      // Generate scene purposes using AI
+      const scenePurposes = await generateScenePurposes();
+      
+      // Mock AI-generated plan with 5+ scenes
       const mockPlan = {
         scenes: [
           {
@@ -39,7 +45,8 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
             text_overlay: "הישאר לחוץ עם המים הטובים ביותר",
             voiceover_text: "כשאתה מתאמן קשה, אתה צריך מים שיתמכו בך",
             voiceover_type: "male_energetic",
-            duration: 3
+            duration: 3,
+            purpose: scenePurposes[0] || "פתיחה אנרגטית שתופסת את תשומת הלב של הצופה ומציגה את הבעיה"
           },
           {
             scene_number: 2,
@@ -49,18 +56,51 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
             text_overlay: "המוצר החדש שלנו",
             voiceover_text: "הכירו את בקבוק המים המהפכני",
             voiceover_type: "female_professional",
-            duration: 2
+            duration: 2,
+            purpose: scenePurposes[1] || "הצגת המוצר בצורה ויזואלית מרשימה שמדגישה את העיצוב והאיכות"
           },
           {
             scene_number: 3,
-            type: "text",
-            text_overlay: "זמין עכשיו באתר שלנו!",
-            voiceover_text: "הזמינו עכשיו ותקבלו משלוח חינם",
+            type: "video",
+            selected_source: "pixabay",
+            ai_prompt: "אנשים משתמשים במוצר בסביבות שונות",
+            text_overlay: "מתאים לכל סגנון חיים",
+            voiceover_text: "בין אם אתם בחדר כושר, בעבודה או בטיול",
             voiceover_type: "male_energetic",
-            duration: 2
+            duration: 3,
+            purpose: scenePurposes[2] || "הדגמת הרבגוניות של המוצר ואיך הוא מתאים לקהלים שונים"
+          },
+          {
+            scene_number: 4,
+            type: "text",
+            text_overlay: "✓ ללא BPA\n✓ שומר על טמפרטורה\n✓ עמיד ואיכותי",
+            voiceover_text: "עם כל התכונות שאתם צריכים",
+            voiceover_type: "female_professional",
+            duration: 2,
+            purpose: scenePurposes[3] || "הדגשת היתרונות והתכונות הייחודיות של המוצר"
+          },
+          {
+            scene_number: 5,
+            type: "video",
+            selected_source: "ai_generated",
+            ai_prompt: "לקוחות מרוצים עם המוצר",
+            text_overlay: "לקוחות מרוצים ברחבי הארץ",
+            voiceover_text: "הצטרפו לאלפי לקוחות מרוצים",
+            voiceover_type: "male_energetic",
+            duration: 2,
+            purpose: scenePurposes[4] || "בניית אמון באמצעות הוכחה חברתית ולקוחות מרוצים"
+          },
+          {
+            scene_number: 6,
+            type: "text",
+            text_overlay: "הזמינו עכשיו!\nמשלוח חינם עד הבית",
+            voiceover_text: "הזמינו עכשיו ותקבלו משלוח חינם",
+            voiceover_type: "female_professional",
+            duration: 2,
+            purpose: scenePurposes[5] || "קריאה לפעולה ברורה עם תמריץ (משלוח חינם) לעידוד רכישה"
           }
         ],
-        total_duration: 7,
+        total_duration: 14,
         style: "modern_dynamic",
         target_audience: "ספורטאים צעירים"
       };
@@ -78,6 +118,27 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const generateScenePurposes = async () => {
+    try {
+      const response = await invokeLLM({
+        prompt: "Generate 6 scene purposes in Hebrew for a product marketing video. Each purpose should explain the role of that scene in the overall creative strategy. Return as JSON array of strings.",
+        response_json_schema: {
+          type: "object",
+          properties: {
+            purposes: {
+              type: "array",
+              items: { type: "string" }
+            }
+          }
+        }
+      });
+      return response.purposes || [];
+    } catch (error) {
+      console.error('Error generating scene purposes:', error);
+      return [];
     }
   };
 
@@ -102,6 +163,33 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
       });
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handlePlanChange = async (changeRequest: string) => {
+    setIsLoading(true);
+    try {
+      // Simulate plan modification based on user request
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // In a real implementation, you would send the change request to your AI service
+      // and get back a modified plan
+      
+      toast({
+        title: "תוכנית עודכנה",
+        description: "השינויים יושמו בהצלחה"
+      });
+      
+      // Regenerate the plan (in real implementation, this would be the modified plan)
+      await generateAIPlan();
+    } catch (error) {
+      toast({
+        title: "שגיאה",
+        description: "אירעה שגיאה בעדכון התוכנית",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -189,6 +277,14 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
+                  {/* Scene Purpose */}
+                  {scene.purpose && (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                      <h5 className="text-sm font-medium text-yellow-800 mb-1">מטרת הסצנה:</h5>
+                      <p className="text-sm text-yellow-700">{scene.purpose}</p>
+                    </div>
+                  )}
+
                   {scene.ai_prompt && (
                     <div>
                       <h5 className="text-sm font-medium text-gray-700 mb-1">תיאור AI:</h5>
@@ -204,7 +300,7 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
                         <Type className="w-3 h-3" />
                         טקסט על המסך:
                       </h5>
-                      <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded">
+                      <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-line">
                         {scene.text_overlay}
                       </p>
                     </div>
@@ -235,15 +331,10 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
         </div>
       </div>
 
-      {/* Action Buttons */}
+      {/* Action Buttons - Swapped alignment */}
       <div className="flex items-center justify-between pt-6 border-t">
-        <Button variant="outline" onClick={onBack} className="hover:bg-brand-primary hover:text-brand-light">
-          <ArrowLeft className="w-4 h-4 ml-2" />
-          חזור לבריף
-        </Button>
-        
         <div className="flex gap-3">
-          <Button variant="outline" onClick={generateAIPlan} className="hover:bg-brand-primary hover:text-brand-light">
+          <Button variant="outline" onClick={() => setShowChangeDialog(true)} className="hover:bg-brand-primary hover:text-brand-light">
             שנה תוכנית
           </Button>
           <Button 
@@ -264,7 +355,20 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
             )}
           </Button>
         </div>
+        
+        <Button variant="outline" onClick={onBack} className="hover:bg-brand-primary hover:text-brand-light">
+          <ArrowLeft className="w-4 h-4 ml-2" />
+          חזור לבריף
+        </Button>
       </div>
+
+      {/* Plan Change Dialog */}
+      <PlanChangeDialog
+        open={showChangeDialog}
+        onOpenChange={setShowChangeDialog}
+        onApplyChange={handlePlanChange}
+        currentPlan={creativePlan}
+      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import CreativeHistory from "./pages/CreativeHistory";
 import CreativeEditor from "./pages/CreativeEditor";
 import BillingPage from "./pages/BillingPage";
 import SettingsPage from "./pages/SettingsPage";
+import MarketingAssistant from "./pages/MarketingAssistant";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/create" element={<CreateCreative />} />
             <Route path="/history" element={<CreativeHistory />} />
             <Route path="/editor" element={<CreativeEditor />} />
+            <Route path="/marketing-assistant" element={<MarketingAssistant />} />
             <Route path="/billing" element={<BillingPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
