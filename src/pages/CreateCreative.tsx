@@ -37,7 +37,7 @@ export default function CreateCreative() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 text-right" dir="rtl">
       <div className="p-6">
         <div className="flex items-center gap-4 mb-6">
           <SidebarTrigger />

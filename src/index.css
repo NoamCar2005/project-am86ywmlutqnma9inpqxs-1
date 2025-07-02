@@ -117,6 +117,15 @@
   }
 }
 
+/* Global button hover styles */
+button:hover, 
+.button:hover,
+[type="button"]:hover,
+[type="submit"]:hover,
+[type="reset"]:hover {
+  @apply hover:bg-brand-primary hover:text-brand-light;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

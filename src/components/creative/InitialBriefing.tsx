@@ -71,7 +71,7 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-right" dir="rtl">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Creative Brief */}
         <div className="space-y-2">
@@ -130,7 +130,7 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
                 />
                 <Label
                   htmlFor={type.id}
-                  className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                  className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-brand-primary hover:text-brand-light peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors"
                 >
                   <type.icon className="mb-3 h-6 w-6" />
                   <div className="text-center">
@@ -151,7 +151,7 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
             type="submit" 
             size="lg" 
             disabled={isLoading}
-            className="gradient-primary text-white min-w-[200px]"
+            className="gradient-primary text-white min-w-[200px] hover:text-brand-light"
           >
             {isLoading ? (
               <div className="flex items-center gap-2">

@@ -76,7 +76,7 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 space-y-4">
+      <div className="flex flex-col items-center justify-center py-12 space-y-4 text-right" dir="rtl">
         <div className="w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
         <div className="text-center">
           <h3 className="text-xl font-medium">הקריאייטיב שלך ברנדור...</h3>
@@ -90,7 +90,7 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-right" dir="rtl">
       {/* Video Preview */}
       <Card className="overflow-hidden">
         <CardHeader>
@@ -165,15 +165,15 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
             <CardTitle className="text-base">פעולות</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button onClick={handleDownload} className="w-full" variant="outline">
+            <Button onClick={handleDownload} className="w-full hover:bg-brand-primary hover:text-brand-light" variant="outline">
               <Download className="w-4 h-4 ml-2" />
               הורד קובץ MP4
             </Button>
-            <Button onClick={handleShare} className="w-full" variant="outline">
+            <Button onClick={handleShare} className="w-full hover:bg-brand-primary hover:text-brand-light" variant="outline">
               <Share2 className="w-4 h-4 ml-2" />
               שתף קריאייטיב
             </Button>
-            <Button asChild className="w-full" variant="outline">
+            <Button asChild className="w-full hover:bg-brand-primary hover:text-brand-light" variant="outline">
               <Link to="/editor">
                 <Edit className="w-4 h-4 ml-2" />
                 ערוך בעורך
@@ -185,18 +185,18 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
 
       {/* Action Buttons */}
       <div className="flex items-center justify-between pt-6 border-t">
-        <Button variant="outline" onClick={onBack}>
+        <Button variant="outline" onClick={onBack} className="hover:bg-brand-primary hover:text-brand-light">
           <ArrowLeft className="w-4 h-4 ml-2" />
           חזור לתכנון
         </Button>
         
         <div className="flex gap-3">
-          <Button asChild variant="outline">
+          <Button asChild variant="outline" className="hover:bg-brand-primary hover:text-brand-light">
             <Link to="/history">
               צפה בהיסטוריה
             </Link>
           </Button>
-          <Button asChild className="gradient-primary text-white">
+          <Button asChild className="gradient-primary text-white hover:text-brand-light">
             <Link to="/create">
               צור קריאייטיב חדש
             </Link>

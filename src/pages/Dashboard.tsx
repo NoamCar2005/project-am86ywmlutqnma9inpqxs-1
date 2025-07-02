@@ -16,6 +16,7 @@ import {
 import { User } from "@/entities";
 import { Project } from "@/entities";
 import { Creative } from "@/entities";
+import { TipsSection } from "@/components/dashboard/TipsSection";
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
@@ -72,7 +73,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 text-right" dir="rtl">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <SidebarTrigger />
@@ -85,7 +86,7 @@ export default function Dashboard() {
             </p>
           </div>
         </div>
-        <Button asChild size="lg" className="gradient-primary text-white">
+        <Button asChild size="lg" className="gradient-primary text-white hover:text-brand-light">
           <Link to="/create">
             <Plus className="w-5 h-5 ml-2" />
             צור קריאייטיב חדש
@@ -150,14 +151,14 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Projects */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              פרויקטים אחרונים
+        <Card className="h-full">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <CardTitle>פרויקטים אחרונים</CardTitle>
               <Link to="/history" className="text-sm text-blue-600 hover:underline">
                 צפה בכל הפרויקטים
               </Link>
-            </CardTitle>
+            </div>
             <CardDescription>
               הפרויקטים האחרונים שיצרת
             </CardDescription>
@@ -166,7 +167,7 @@ export default function Dashboard() {
             {recentProjects.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 <p>עדיין לא יצרת פרויקטים</p>
-                <Button asChild className="mt-4" variant="outline">
+                <Button asChild className="mt-4" variant="outline" dir="rtl">
                   <Link to="/create">צור את הפרויקט הראשון שלך</Link>
                 </Button>
               </div>
@@ -181,7 +182,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     {getStatusBadge(project.status)}
-                    <Button variant="ghost" size="sm" asChild>
+                    <Button variant="ghost" size="sm" asChild className="hover:bg-brand-primary hover:text-brand-light">
                       <Link to={`/project/${project.id}`}>
                         <Eye className="w-4 h-4" />
                       </Link>
@@ -194,14 +195,14 @@ export default function Dashboard() {
         </Card>
 
         {/* Recent Creatives */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              קריאייטיבים אחרונים
+        <Card className="h-full">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <CardTitle>קריאייטיבים אחרונים</CardTitle>
               <Link to="/history" className="text-sm text-blue-600 hover:underline">
                 צפה בכל הקריאייטיבים
               </Link>
-            </CardTitle>
+            </div>
             <CardDescription>
               הקריאייטיבים האחרונים שנוצרו
             </CardDescription>
@@ -244,6 +245,9 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Tips Section */}
+      <TipsSection />
     </div>
   );
 }

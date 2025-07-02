@@ -127,7 +127,7 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 space-y-4">
+      <div className="flex flex-col items-center justify-center py-12 space-y-4 text-right" dir="rtl">
         <div className="w-12 h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
         <div className="text-center">
           <h3 className="text-lg font-medium">ה-AI מכין עבורך תוכנית מותאמת אישית</h3>
@@ -138,7 +138,7 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-right" dir="rtl">
       {/* Plan Overview */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h3 className="font-medium text-blue-900 mb-2">סקירת התוכנית</h3>
@@ -223,7 +223,7 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
                   )}
                   
                   <div className="flex justify-end">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" className="hover:bg-brand-primary hover:text-brand-light">
                       <Edit className="w-3 h-3 ml-1" />
                       ערוך סצנה
                     </Button>
@@ -237,19 +237,19 @@ export function PlanningCanvas({ projectData, onComplete, onBack }: PlanningCanv
 
       {/* Action Buttons */}
       <div className="flex items-center justify-between pt-6 border-t">
-        <Button variant="outline" onClick={onBack}>
+        <Button variant="outline" onClick={onBack} className="hover:bg-brand-primary hover:text-brand-light">
           <ArrowLeft className="w-4 h-4 ml-2" />
           חזור לבריף
         </Button>
         
         <div className="flex gap-3">
-          <Button variant="outline" onClick={generateAIPlan}>
+          <Button variant="outline" onClick={generateAIPlan} className="hover:bg-brand-primary hover:text-brand-light">
             שנה תוכנית
           </Button>
           <Button 
             onClick={handleApprove}
             disabled={isGenerating}
-            className="gradient-primary text-white min-w-[150px]"
+            className="gradient-primary text-white min-w-[150px] hover:text-brand-light"
           >
             {isGenerating ? (
               <div className="flex items-center gap-2">
