@@ -1,7 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,8 +13,6 @@ export default function Layout({ children }: LayoutProps) {
         <main className="flex-1 overflow-auto">
           {children}
         </main>
-        <Toaster />
-        <Sonner />
       </div>
     </SidebarProvider>
   );

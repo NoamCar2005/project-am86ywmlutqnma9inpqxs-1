@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { ArrowRight, Link as LinkIcon, Video, Image, Layers } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -123,29 +122,25 @@ export function InitialBriefing({ onComplete, initialData }: InitialBriefingProp
             className="grid grid-cols-1 md:grid-cols-3 gap-4"
           >
             {creativeTypes.map((type) => (
-              <FormItem key={type.id}>
-                <FormControl>
-                  <div className="relative">
-                    <RadioGroupItem
-                      value={type.id}
-                      id={type.id}
-                      className="peer sr-only"
-                    />
-                    <FormLabel
-                      htmlFor={type.id}
-                      className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
-                    >
-                      <type.icon className="mb-3 h-6 w-6" />
-                      <div className="text-center">
-                        <div className="font-medium">{type.label}</div>
-                        <div className="text-sm text-muted-foreground mt-1">
-                          {type.description}
-                        </div>
-                      </div>
-                    </FormLabel>
+              <div key={type.id} className="relative">
+                <RadioGroupItem
+                  value={type.id}
+                  id={type.id}
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor={type.id}
+                  className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                >
+                  <type.icon className="mb-3 h-6 w-6" />
+                  <div className="text-center">
+                    <div className="font-medium">{type.label}</div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      {type.description}
+                    </div>
                   </div>
-                </FormControl>
-              </FormItem>
+                </Label>
+              </div>
             ))}
           </RadioGroup>
         </div>
