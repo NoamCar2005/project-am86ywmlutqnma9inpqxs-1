@@ -80,27 +80,27 @@ export default function CreativeEditor() {
             <CardContent>
               <Tabs defaultValue="creatomate" orientation="vertical" className="w-full">
                 <TabsList className="grid w-full grid-cols-1 h-auto">
-                  <TabsTrigger value="creatomate" className="justify-start">
+                  <TabsTrigger value="creatomate" className="justify-end">
                     <Palette className="w-4 h-4 ml-2" />
                     Creatomate
                   </TabsTrigger>
-                  <TabsTrigger value="stability" className="justify-start">
+                  <TabsTrigger value="stability" className="justify-end">
                     <Wand2 className="w-4 h-4 ml-2" />
                     Stability AI
                   </TabsTrigger>
-                  <TabsTrigger value="media" className="justify-start">
+                  <TabsTrigger value="media" className="justify-end">
                     <Image className="w-4 h-4 ml-2" />
                     מדיה
                   </TabsTrigger>
-                  <TabsTrigger value="text" className="justify-start">
+                  <TabsTrigger value="text" className="justify-end">
                     <Type className="w-4 h-4 ml-2" />
                     טקסט
                   </TabsTrigger>
-                  <TabsTrigger value="audio" className="justify-start">
+                  <TabsTrigger value="audio" className="justify-end">
                     <Music className="w-4 h-4 ml-2" />
                     אודיו
                   </TabsTrigger>
-                  <TabsTrigger value="settings" className="justify-start">
+                  <TabsTrigger value="settings" className="justify-end">
                     <Settings className="w-4 h-4 ml-2" />
                     הגדרות
                   </TabsTrigger>
@@ -112,19 +112,19 @@ export default function CreativeEditor() {
                       <h4 className="font-medium">עורך Creatomate</h4>
                       {isCreatomateLoaded ? (
                         <div className="space-y-2">
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Image className="w-4 h-4 ml-2" />
                             הוסף תמונה
                           </Button>
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Type className="w-4 h-4 ml-2" />
                             הוסף טקסט
                           </Button>
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Play className="w-4 h-4 ml-2" />
                             הוסף וידאו
                           </Button>
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Music className="w-4 h-4 ml-2" />
                             הוסף אודיו
                           </Button>
@@ -143,15 +143,15 @@ export default function CreativeEditor() {
                       <h4 className="font-medium">Stability AI</h4>
                       {isStabilityLoaded ? (
                         <div className="space-y-2">
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Wand2 className="w-4 h-4 ml-2" />
                             צור תמונה מטקסט
                           </Button>
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Image className="w-4 h-4 ml-2" />
                             ערוך תמונה קיימת
                           </Button>
-                          <Button variant="outline" className="w-full justify-start">
+                          <Button variant="outline" className="w-full justify-end">
                             <Palette className="w-4 h-4 ml-2" />
                             שנה סגנון
                           </Button>
@@ -168,11 +168,11 @@ export default function CreativeEditor() {
                   <TabsContent value="media">
                     <div className="space-y-3">
                       <h4 className="font-medium">ניהול מדיה</h4>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Image className="w-4 h-4 ml-2" />
                         העלה תמונה
                       </Button>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Play className="w-4 h-4 ml-2" />
                         העלה וידאו
                       </Button>
@@ -182,11 +182,11 @@ export default function CreativeEditor() {
                   <TabsContent value="text">
                     <div className="space-y-3">
                       <h4 className="font-medium">עריכת טקסט</h4>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Type className="w-4 h-4 ml-2" />
                         הוסף כותרת
                       </Button>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Type className="w-4 h-4 ml-2" />
                         הוסף תת-כותרת
                       </Button>
@@ -196,11 +196,11 @@ export default function CreativeEditor() {
                   <TabsContent value="audio">
                     <div className="space-y-3">
                       <h4 className="font-medium">עריכת אודיו</h4>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Music className="w-4 h-4 ml-2" />
                         הוסף מוזיקת רקע
                       </Button>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Music className="w-4 h-4 ml-2" />
                         הוסף קריינות
                       </Button>
@@ -210,11 +210,11 @@ export default function CreativeEditor() {
                   <TabsContent value="settings">
                     <div className="space-y-3">
                       <h4 className="font-medium">הגדרות</h4>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Settings className="w-4 h-4 ml-2" />
                         איכות ייצוא
                       </Button>
-                      <Button variant="outline" className="w-full justify-start">
+                      <Button variant="outline" className="w-full justify-end">
                         <Settings className="w-4 h-4 ml-2" />
                         פורמט קובץ
                       </Button>

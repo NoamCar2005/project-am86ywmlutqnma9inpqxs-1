@@ -141,7 +141,7 @@ export default function MarketingAssistant() {
             <CardContent className="space-y-3">
               <Button 
                 variant="outline" 
-                className="w-full justify-start hover:bg-brand-primary hover:text-brand-light"
+                className="w-full justify-end hover:bg-brand-primary hover:text-brand-light"
                 onClick={() => setInputMessage("איך אני יכול לשפר את הקמפיין שלי?")}
               >
                 <TrendingUp className="w-4 h-4 ml-2" />
@@ -149,7 +149,7 @@ export default function MarketingAssistant() {
               </Button>
               <Button 
                 variant="outline" 
-                className="w-full justify-start hover:bg-brand-primary hover:text-brand-light"
+                className="w-full justify-end hover:bg-brand-primary hover:text-brand-light"
                 onClick={() => setInputMessage("עזור לי לנתח את קהל היעד שלי")}
               >
                 <BarChart3 className="w-4 h-4 ml-2" />
@@ -157,7 +157,7 @@ export default function MarketingAssistant() {
               </Button>
               <Button 
                 variant="outline" 
-                className="w-full justify-start hover:bg-brand-primary hover:text-brand-light"
+                className="w-full justify-end hover:bg-brand-primary hover:text-brand-light"
                 onClick={() => setInputMessage("תן לי רעיונות לתוכן יצירתי")}
               >
                 <Lightbulb className="w-4 h-4 ml-2" />
@@ -176,7 +176,7 @@ export default function MarketingAssistant() {
                   key={index}
                   variant="ghost"
                   size="sm"
-                  className="w-full text-right justify-start h-auto p-2 hover:bg-brand-primary hover:text-brand-light"
+                  className="w-full text-right justify-end h-auto p-2 hover:bg-brand-primary hover:text-brand-light"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
                   <span className="text-xs">{suggestion}</span>

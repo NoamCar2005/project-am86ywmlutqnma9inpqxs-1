@@ -17,7 +17,7 @@
     "creative_type": {
       "type": "string",
       "description": "Type of creative (video, image_set, etc.)",
-      "enum": ["video", "image_set", "carousel"]
+      "enum": ["video", "image_set", "carousel", "product_info", "trendy_reel", "product_explanation"]
     },
     "status": {
       "type": "string",

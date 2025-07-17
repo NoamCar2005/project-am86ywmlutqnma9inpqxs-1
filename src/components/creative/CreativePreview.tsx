@@ -3,32 +3,56 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Download, Share2, Edit, Play, Heart, Star } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Creative, Project } from "@/entities";
 
-interface CreativePreviewProps {
-  projectData: any;
-  onBack: () => void;
+interface ProjectData {
+  brief: string;
+  productUrl: string;
+  creativeType: string;
+  creativePlan: CreativePlan;
 }
 
-export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
-  const [videoUrl, setVideoUrl] = useState<string>("");
+interface CreativePlan {
+  total_duration?: number;
+  scenes?: unknown[];
+}
+
+interface CreativePreviewProps {
+  projectData: ProjectData;
+  onBack: () => void;
+  creativeUrl?: string;
+}
+
+export function CreativePreview({ projectData, onBack, creativeUrl }: CreativePreviewProps) {
+  const location = useLocation();
+  const creativeUrlFromState = creativeUrl || location.state?.creativeUrl;
+  const [videoUrl, setVideoUrl] = useState<string>(creativeUrlFromState || "");
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [createdCreativeId, setCreatedCreativeId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate video rendering completion
-    setTimeout(() => {
-      setVideoUrl("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+    if (creativeUrlFromState) {
+      setVideoUrl(creativeUrlFromState);
       setIsLoading(false);
       toast({
         title: "הקריאייטיב מוכן!",
+        description: "הקריאייטיב שלך נוצר ומוכן לצפייה"
+      });
+    } else {
+      // Simulate video rendering completion (legacy fallback)
+      setTimeout(() => {
+        setVideoUrl("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+        setIsLoading(false);
+        toast({
+          title: "הקריאייטיב מוכן!",
         description: "הסרטון שלך נוצר בהצלחה ומוכן לצפייה"
       });
     }, 2000);
-  }, []);
+    }
+  }, [creativeUrlFromState]);
 
   const handleDownload = () => {
     if (videoUrl) {
@@ -89,9 +113,27 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
   };
 
   const handleCreateNewCreative = async () => {
+    // Validation
+    if (!projectData.brief || !projectData.productUrl || !projectData.creativeType || !projectData.creativePlan) {
+      toast({
+        title: "שגיאה",
+        description: "אנא ודא שכל השדות הדרושים מלאים (בריף, קישור מוצר, סוג קריאייטיב ותוכנית AI)",
+        variant: "destructive"
+      });
+      return;
+    }
+    if (!videoUrl) {
+      toast({
+        title: "שגיאה",
+        description: "הווידאו עדיין לא נטען. המתן לסיום הרנדור ונסה שוב.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     try {
-      // First create a project
-      const project = await Project.create({
+      // Create project using local service
+      const projectPayload = {
         title: `פרויקט ${new Date().toLocaleDateString('he-IL')}`,
         brief: projectData.brief,
         product_url: projectData.productUrl,
@@ -99,10 +141,14 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
         status: "completed",
         creative_plan_json: JSON.stringify(projectData.creativePlan),
         tags: ["ai-generated", projectData.creativeType]
-      });
+      };
+      
+      console.log('Creating project with payload:', projectPayload);
+      const project = await Project.create(projectPayload);
+      console.log('Project created successfully:', project);
 
-      // Then create the creative
-      const creative = await Creative.create({
+      // Create creative using local service
+      const creativePayload = {
         project_id: project.id,
         title: `קריאייטיב ${projectData.creativeType}`,
         status: "rendered",
@@ -112,7 +158,11 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
         ai_prompts: JSON.stringify(projectData.creativePlan?.scenes || []),
         tags: ["ai-generated", projectData.creativeType],
         is_favorite: false
-      });
+      };
+      
+      console.log('Creating creative with payload:', creativePayload);
+      const creative = await Creative.create(creativePayload);
+      console.log('Creative created successfully:', creative);
 
       setCreatedCreativeId(creative.id);
 
@@ -125,9 +175,19 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
       navigate('/create');
     } catch (error) {
       console.error('Error creating creative:', error);
+      
+      let errorMessage = "אירעה שגיאה בשמירת הקריאייטיב.";
+      if (error && typeof error === 'object') {
+        if ('message' in error && typeof error.message === 'string') {
+          errorMessage += `\n${error.message}`;
+        } else if (typeof error.toString === 'function') {
+          errorMessage += `\n${error.toString()}`;
+        }
+      }
+      
       toast({
         title: "שגיאה",
-        description: "אירעה שגיאה בשמירת הקריאייטיב",
+        description: errorMessage,
         variant: "destructive"
       });
     }
@@ -176,6 +236,7 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
         <CardContent>
           <div className="aspect-video bg-black rounded-lg overflow-hidden">
             {videoUrl ? (
+              videoUrl.match(/\.(mp4|webm|ogg)$/i) ? (
               <video 
                 controls 
                 className="w-full h-full"
@@ -184,6 +245,9 @@ export function CreativePreview({ projectData, onBack }: CreativePreviewProps) {
                 <source src={videoUrl} type="video/mp4" />
                 הדפדפן שלך לא תומך בתגית הווידאו.
               </video>
+              ) : (
+                <img src={videoUrl} alt="Creative" className="w-full h-full object-contain bg-white" />
+              )
             ) : (
               <div className="w-full h-full flex items-center justify-center text-white">
                 <Play className="w-16 h-16 opacity-50" />

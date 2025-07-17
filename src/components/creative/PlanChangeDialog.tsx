@@ -11,7 +11,7 @@ interface PlanChangeDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onApplyChange: (change: string) => void;
-  currentPlan: any;
+  currentPlan: unknown;
 }
 
 export function PlanChangeDialog({ open, onOpenChange, onApplyChange, currentPlan }: PlanChangeDialogProps) {
@@ -80,11 +80,11 @@ export function PlanChangeDialog({ open, onOpenChange, onApplyChange, currentPla
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl text-right" dir="rtl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-2 text-right">
             <Sparkles className="w-5 h-5 text-brand-primary" />
             מה לשנות בתוכנית?
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-right">
             תאר את השינויים שתרצה לבצע בתוכנית הקריאייטיב או בחר מההצעות של עוזר השיווק
           </DialogDescription>
         </DialogHeader>

@@ -141,7 +141,7 @@ export default function BillingPage() {
                 </span>
               </div>
             </div>
-            <div className="text-left">
+            <div className="text-right">
               <div className="text-2xl font-bold text-gray-900">
                 {user?.credits_balance || 0}
               </div>

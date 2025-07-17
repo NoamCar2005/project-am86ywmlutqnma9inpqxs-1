@@ -20,7 +20,9 @@ import {
   Settings, 
   User,
   Sparkles,
-  MessageCircle
+  MessageCircle,
+  Database,
+  Shield
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -47,9 +49,19 @@ const menuItems = [
     icon: MessageCircle,
   },
   {
+    title: "ניהול נתונים",
+    url: "/data-management",
+    icon: Database,
+  },
+  {
     title: "עריכה",
     url: "/editor",
     icon: Edit3,
+  },
+  {
+    title: "ניהול מערכת",
+    url: "/admin",
+    icon: Shield,
   },
 ];
 
@@ -77,10 +89,13 @@ export function AppSidebar() {
   return (
     <Sidebar side="right" className="border-l border-sidebar-border">
       <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
-          </div>
+        <div className="flex items-center gap-3">
+          <img
+            src="/logo.png"
+            alt="AdCraftAI logo"
+            className="w-10 h-10 object-contain rounded-lg shadow-sm"
+            style={{ background: 'transparent' }}
+          />
           <div>
             <h2 className="text-lg font-bold text-sidebar-foreground">AdCraftAI</h2>
             <p className="text-xs text-sidebar-foreground/70">יצירת תוכן חכמה</p>
